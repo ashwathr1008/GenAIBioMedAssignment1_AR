@@ -709,7 +709,11 @@ class ProGenForCausalLM(ProGenPreTrainedModel):
         hidden_states = transformer_outputs[0]  # [B, L, dim]
         # TODO: mapping the hiddent_states to get token distribution using softmax function
         # Hint: Using self.lm_head to achieve mapping
-        raise NotImplementedError("Need to be implemented for token distribution mapping")
+
+        # Answer:
+        # train.py takes -log of this directly, so needs to be probs, not raw logits
+        lm_logits = self.lm_head(hidden_states)  # [B, L, vocab]
+        return F.softmax(lm_logits, dim=-1)
 
     def forward_inference(
             self, prefix_seqs, eos_id, max_length, decoding_strategy='greedy',

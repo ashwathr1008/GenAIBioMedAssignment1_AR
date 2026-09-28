@@ -1,0 +1,9 @@
+# big / regenerable stuff that shouldn't go to GitHub
+pretrained_model/
+models/
+*.tar.gz
+*.out
+__pycache__/
+
+# my local notes for Claude Code
+CLAUDE.md

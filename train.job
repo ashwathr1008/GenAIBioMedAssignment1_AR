@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -J progen-train
+#SBATCH -A cis260266p
+#SBATCH -N 1
+#SBATCH -p GPU-shared
+#SBATCH --gpus=l40s-48:1
+#SBATCH -t 12:00:00
+#SBATCH -o %x-%j.out
+
+set -e
+
+# relative paths in train.py (data/, models/, pretrained_model/) assume the repo root
+cd "$SLURM_SUBMIT_DIR"
+mkdir -p models
+
+module load anaconda3/2024.10-1
+# batch shells don't source .bashrc, so hook conda in before activating
+eval "$(conda shell.bash hook)"
+conda activate "$PROJECT/envs/progen"
+
+# log which node/GPU we got, useful if something looks off later
+hostname
+nvidia-smi
+python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+
+# -u so the per-update prints show up in the log live instead of buffering
+python -u train.py

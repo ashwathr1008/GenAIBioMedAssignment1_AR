@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH -J progen-design
+#SBATCH -A cis260266p
+#SBATCH -N 1
+#SBATCH -p GPU-shared
+#SBATCH --gpus=l40s-48:1
+#SBATCH -t 02:00:00
+#SBATCH -o %x-%j.out
+
+set -e
+
+cd "$SLURM_SUBMIT_DIR"
+# inference.py writes to design/design.txt but doesn't create the folder
+mkdir -p design
+
+module load anaconda3/2024.10-1
+eval "$(conda shell.bash hook)"
+conda activate "$PROJECT/envs/progen"
+
+hostname
+nvidia-smi
+
+python -u inference.py
