@@ -4,6 +4,7 @@ models/
 *.tar.gz
 *.out
 __pycache__/
+alphafold/results/
 
 # my local notes for Claude Code
 CLAUDE.md
