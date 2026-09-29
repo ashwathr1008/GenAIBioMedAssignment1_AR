@@ -40,7 +40,7 @@ def main():
             writer.writerow([f'design_{n:02d}', len(subs), in_prompt, len(subs) - in_prompt, ' '.join(subs)])
             print(f'design_{n:02d}: {" ".join(subs) or "(matches consensus)"}')
 
-    # where along the sequence the substitutions land, for the positional distribution part
+    # where along the sequence the substitutions land, for the positional distribution
     print('\nsubstitutions per position:')
     for pos, count in sorted(position_counts.items()):
         region = 'prompt' if pos <= PROMPT_LEN else 'generated'
